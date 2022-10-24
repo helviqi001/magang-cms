@@ -36,7 +36,6 @@ class LoginController extends Controller
                 'clientKey' => 'clientKeyBackOffice',
                 'secretKey' => 'secret'
             ]);
-
             \Cache::add('token-app', $token->getData()->data->token, 2592000);;
         }
 

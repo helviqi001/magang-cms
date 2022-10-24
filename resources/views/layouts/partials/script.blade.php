@@ -22,19 +22,19 @@
         "hideMethod": "fadeOut"
     }
 
-    @if($message = Session::get('success'))
+    @if($message = $message ?? "")
         toastr["success"]("{{ $message }}").show()
     @endif
 
-    @if($message = Session::get('error'))
+    @if($message = $error ?? "")
         toastr["error"]("{{ $message }}").show()
     @endif
 
-    @if($message = Session::get('warning'))
+    @if($message = $warning ?? "")
         toastr["warning"]("{{ $message }}").show()
     @endif
 
-    @if($message = Session::get('info'))
+    @if($message = $info ?? "")
         toastr["info"]("{{ $message }}").show()
     @endif
 

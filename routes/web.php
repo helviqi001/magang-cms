@@ -47,7 +47,7 @@ Route::group([
     Route::group([
         'prefix' => 'role'
     ], function () {
-        Route::get('/', 'RoleController@index');
+        Route::get('/', 'RoleController@index')->name('index.role');
         Route::get('/fn_get_data', 'RoleController@fnGetData');
         Route::get('/create', 'RoleController@create');
         Route::post('/create', 'RoleController@store');

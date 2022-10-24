@@ -27,23 +27,84 @@ class RoleController extends Controller
 
     public function store()
     {
-
+        
     }
 
     public function edit($id)
     {
         $gateway = new Gateway();
+        $role = $gateway->get('/api/cms/manage/role/'. $id)->getData();
+        if (!$role->success){
+            return redirect()->route('index.role');
+        }
 
         $menuItems = $gateway->get('/api/cms/manage/menu-item', [
             'limit' => 999
         ])->getData()->data->items;
 
-        return view('pages.Administrator.Role.edit', compact('menuItems'));
+        $role = $role->data;
+        $rolePrivilege = collect($role->privileges);
+
+        foreach ($menuItems as $i => $menuItem) {
+            $privilege = $rolePrivilege->where('menuItemId', $menuItem->menuItemId)->first();
+
+            if(!$privilege) {
+                $menuItems[$i]->roleId = $id;
+                $menuItems[$i]->privilegeId = "";
+                $menuItems[$i]->view = false;
+                $menuItems[$i]->add = false;
+                $menuItems[$i]->edit = false;
+                $menuItems[$i]->delete = false;
+                $menuItems[$i]->other = false;
+            } else {
+                $menuItems[$i]->roleId = $id;
+                $menuItems[$i]->privilegeId = $privilege->privilegeId;
+                $menuItems[$i]->view = (bool)$privilege->view;
+                $menuItems[$i]->add = (bool)$privilege->add;
+                $menuItems[$i]->edit = (bool)$privilege->edit;
+                $menuItems[$i]->delete = (bool)$privilege->delete;
+                $menuItems[$i]->other = (bool)$privilege->other;
+            }
+            
+
+        }
+        return view('pages.Administrator.Role.edit', compact('menuItems', 'role'));
     }
 
     public function update(Request $request, $id)
     {
+        $privileges = $request->get('privileges');
+        foreach($privileges as $i => $privilege) {
+            // cek data
+            $privileges[$i]['view'] = array_key_exists('view', $privilege);
+            $privileges[$i]['add'] = array_key_exists('add', $privilege);
+            $privileges[$i]['edit'] = array_key_exists('edit', $privilege);
+            $privileges[$i]['delete'] = array_key_exists('delete', $privilege);
+            $privileges[$i]['other'] = array_key_exists('other', $privilege);
+        }
 
+        $testRequestToApi = [
+            "name"=> $request->get('name'),
+            "description" => $request->get('description'),
+            "privileges" => $privileges
+        ];
+        $gateway = new Gateway();
+        // Hit ke API untuk update data
+        $updateRole = $gateway->put('/api/cms/manage/role/'. $id, [
+            "name"=> $request->get('name'),
+            "description" => $request->get('description'),
+            "privileges" => $privileges
+        ])->getData();
+
+        // cek balikan api 
+        if(!$updateRole->success) {
+            // kalo gagal 
+            // dd($updateRole);
+
+            return redirect()->route('index.role')->with(['error', $updateRole->message]);
+        }
+        // kalo sukses
+        return redirect()->route('index.role');
     }
 
     public function delete($id)
