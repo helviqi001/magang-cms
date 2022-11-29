@@ -35,6 +35,8 @@
                     </thead>
                     <tbody>
                     @foreach($menuItems as $menuItem)
+                    <input type="hidden" name="menu[{{ $menuItem->menuItemId }}][menuItemId]"
+                    value="{{ $menuItem->menuItemId }}">
                         <tr>
                             <td>{{ $menuItem->name }}</td>
                             <td>
@@ -42,7 +44,7 @@
                                     <label>
                                         <input type="checkbox"
                                                class=""
-                                               name="menu[{{ $menuItem->menuItemId }}][menuView]"
+                                               name="menu[{{ $menuItem->menuItemId }}][view]"
                                                value="1">
                                     </label>
                                 </div>
@@ -52,7 +54,7 @@
                                     <label>
                                         <input type="checkbox"
                                                class=""
-                                               name="menu[{{ $menuItem->menuItemId }}][menuAdd]"
+                                               name="menu[{{ $menuItem->menuItemId }}][add]"
                                                value="1">
                                     </label>
                                 </div>
@@ -61,7 +63,7 @@
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" class="" 
-                                               name="menu[{{ $menuItem->menuItemId }}][menuEdit]" 
+                                               name="menu[{{ $menuItem->menuItemId }}][edit]" 
                                                value="1">
                                     </label>
                                 </div>
@@ -70,7 +72,7 @@
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" class="" 
-                                               name="menu[{{ $menuItem->menuItemId }}][menuDelete]" 
+                                               name="menu[{{ $menuItem->menuItemId }}][delete]" 
                                                value="1">
                                     </label>
                                 </div>
@@ -79,7 +81,7 @@
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" class="" 
-                                               name="menu[{{ $menuItem->menuItemId }}][menuOther]" 
+                                               name="menu[{{ $menuItem->menuItemId }}][other]" 
                                                value="1">
                                     </label>
                                 </div>

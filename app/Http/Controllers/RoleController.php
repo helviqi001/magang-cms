@@ -27,7 +27,8 @@ class RoleController extends Controller
 
     public function store(request $request)
     {
-        $privileges = $request->get('privileges');
+        // dd($request->all());
+        $privileges = $request->get('menu');
         foreach($privileges as $i => $privilege) {
             // cek data
             $privileges[$i]['view'] = array_key_exists('view', $privilege);
@@ -37,23 +38,25 @@ class RoleController extends Controller
             $privileges[$i]['other'] = array_key_exists('other', $privilege);
         }
 
-        $testRequestToApi = [
-            "name"=> $request->get('name'),
-            "description" => $request->get('description'),
-            "privileges" => $privileges
-        ];
+        // $testRequestToApi = [
+        //     "name"=> $request->get('name'),
+        //     "description" => $request->get('description'),
+        //     "privileges" => $privileges 
+        // ];
+        // dd($testRequestToApi)
+        
         $gateway = new Gateway();
         // Hit ke API untuk menambah data
-        $storeRole = $gateway->post('/api/cms/manage/role/'. $id,[
+        $storeRole = $gateway->post('/api/cms/manage/role' ,[
             "name"=> $request->get('name'),
             "description" => $request->get('description'),
-            "privileges" => $privileges
+            "privileges" => $privileges 
         ])->getData();
-
+            // dd($storeRole);
         // cek balikan api 
         if(!$storeRole->success) {
             // // kalo gagal 
-            dd($storeRole);
+            // dd($storeRole);
 
             return redirect()->route('index.role')->with(['error', $storeRole->message]);
         }
@@ -101,9 +104,10 @@ class RoleController extends Controller
         }
         return view('pages.Administrator.Role.edit', compact('menuItems', 'role'));
     }
-
+ 
     public function update(Request $request, $id)
     {
+        // dd($request->all());
         $privileges = $request->get('privileges');
         foreach($privileges as $i => $privilege) {
             // cek data
@@ -112,25 +116,26 @@ class RoleController extends Controller
             $privileges[$i]['edit'] = array_key_exists('edit', $privilege);
             $privileges[$i]['delete'] = array_key_exists('delete', $privilege);
             $privileges[$i]['other'] = array_key_exists('other', $privilege);
-        }
-
+        }  
         $testRequestToApi = [
             "name"=> $request->get('name'),
             "description" => $request->get('description'),
             "privileges" => $privileges
         ];
+        // dd($testRequestToApi);
         $gateway = new Gateway();
         // Hit ke API untuk update data
-        $updateRole = $gateway->put('/api/cms/manage/role/'. $id, [
+       
+        $updateRole = $gateway->put('/api/cms/manage/role '. $id, [
             "name"=> $request->get('name'),
             "description" => $request->get('description'),
             "privileges" => $privileges
         ])->getData();
-
+        // dd($updateRole);
         // cek balikan api 
         if(!$updateRole->success) {
             // kalo gagal 
-            dd($updateRole);
+            // dd($updateRole);
 
             return redirect()->route('index.role')->with(['error', $updateRole->message]);
         }

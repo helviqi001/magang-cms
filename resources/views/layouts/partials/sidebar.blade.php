@@ -43,7 +43,13 @@
                     </ul>
                 </li>
             @endforeach
+            <li  class="{{ isActiveUrl('/kuliner') }}">
+                <a href="{{route('dashboard')}}"><i class="fa fa-tachometer-alt"></i><span>Kuliner</span></a>
 
+            </li>
+            <li class="{{ isActiveUrl('/wisata') }}">
+                <a href="{{route('dashboard')}}"><i class="fa fa-tachometer-alt"></i><span>wisata</span></a>
+            </li>
         </ul>
     </section>
 </aside>
