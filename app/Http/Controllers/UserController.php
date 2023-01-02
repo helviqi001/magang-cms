@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\Gateway;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use \Yajra\DataTables\DataTables;
@@ -15,29 +16,121 @@ class UserController extends Controller
         return view('pages.Administrator.User.index');
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        return view('pages.Administrator.User.create');
+        $gateway = new Gateway();
+        $data = $gateway->get('/api/cms/manage/role', [
+            'page' => 1,
+            'perPage' => 999,
+            'limit' => 999,
+        ])->getData()->data;
+        return view('pages.Administrator.User.create')->with('roles', $data);
     }
 
-    public function store()
+    public function store(request $request)
     {
+        // dd($request->all());
+        // $data = user::create ($request->all());
+        // if($request->hasFile('avatar')){
+        //     $request->file('avatar')->move('img/', $request-> file('foto')->getClientOriginalName());
+        //     $data->foto = $request->file('avatar')->getClientOriginalName();
+        //     $data->save();
+        // }
+        $this->validate($request,[
+            'name' => 'required|min:5|max:20',
+            'username' => 'required|min:6|max:30',
+            'email' => 'required',
+            'avatar' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'birthdate' => 'required',
+            'password' => 'required|alphaNum|min:5',
+            'confirmpassword' => 'required|alphaNum|min:5',
+            'roleId' => 'required',
+        ]);
 
+        // $path =$request->file('avatar')->store('public/images');
+        $file           = $request->file('avatar');
+        //mengambil nama file
+        $nama_file      = asset('img/avatars').'/'.$file->getClientOriginalName();
+        
+        //memindahkan file ke folder tujuan
+        $file->move('img/avatars',$file->getClientOriginalName());
+        // $user = new User;
+        // $user->save();
+        
+
+        $gateway = new Gateway();
+        $storeRole = $gateway->post('/api/cms/manage/user' ,[
+            "name"=> $request->get('name'),
+            "username"=>$request->get('username'),
+            "email"=>$request->get('email'),
+            "avatar"=>$nama_file,
+            "birthDate"=> $request->get('birthdate'),
+            "password"=> $request->get('password'),
+            "roleId"=> $request->get('roleId')
+        ])->getData();
+        return redirect('/admin')->with('success','Data Berhasil Di Tambahkan');
     }
 
     public function edit($id)
     {
-        return view('pages.Administrator.User.edit');
+        
+        $gateway = new Gateway();
+        $user = $gateway->get('/api/cms/manage/user/'. $id)->getData()->data;
+        $roles = $gateway->get('/api/cms/manage/role', [
+            'page' => 1,
+            'perPage' => 999,
+            'limit' => 999,
+        ])->getData()->data;
+        return view('pages.Administrator.User.edit', compact('roles', 'user'));
+
     }
 
     public function update(Request $request, $id)
     {
+        // dd($request->all());
+        $nama_file = '';
+        if ($request->file('avatar')) {
+            $file           = $request->file('avatar');
+            //mengambil nama file
+            $nama_file      = asset('img/avatars').'/'.$file->getClientOriginalName();
+            
+            //memindahkan file ke folder tujuan
+            $file->move('img/avatars',$file->getClientOriginalName());
+        }
+        
+        $password = '';
+        if ($request->password != null) {
+            $password = $request->password;
+        }
+
+        $gateway = new Gateway();
+        $storeRole = $gateway->put('/api/cms/manage/user/'.$id ,[
+            "name"=> $request->get('name'),
+            "username"=>$request->get('username'),
+            "email"=>$request->get('email'),
+            "avatar"=>$nama_file,
+            "birthDate"=> $request->get('birthdate'),
+            "password"=> $password,
+            "roleId"=> $request->get('roleId')
+        ])->getData();
+
+        if ($storeRole->success) {
+            return redirect('/admin')->with('success','Data Berhasil Di Tambahkan');
+        } else {
+            return redirect('/admin')->with('error','Rusak');
+        }
 
     }
 
     public function delete($id)
     {
-        return redirect('/admin');
+        $gateway = new Gateway();
+
+        $deleteRole = $gateway->delete('/api/cms/manage/user/' . $id);
+        if (!$deleteRole->getData()->success) {
+            return redirect('/role')->with('error', $deleteRole->getData()->message);
+        }
+        return redirect('/admin')->with('success', 'Admin Deleted');
     }
 
     public function fnGetData(Request $request)

@@ -62,7 +62,7 @@
         </div>
     </div>
 
-    @include('layouts.partials.script')
+    {{-- @include('layouts.partials.script') --}}
     <script>
         $(function () {
             $('input').iCheck({

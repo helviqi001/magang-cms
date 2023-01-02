@@ -14,6 +14,9 @@
         <div class="box-body table-responsive">
             <form action="" id="form" method="POST">
                 @csrf
+                <input type="hidden"
+                name="roleId"
+                value="{{ $role->roleId }}">
                 <div class="form-group">
                     <label for="employeeFirstName">Name<span class="text-red">*</span></label>
                     <input type="text" class="form-control" name="name" value="{{ $role->name }}">
@@ -36,16 +39,14 @@
                     <tbody>
                     @foreach($menuItems as $i => $menuItem)
                         <input type="hidden"
-                        name="privileges[{{ $menuItem->menuItemId }}][menuItemId]"
+                        name="privileges[{{ $i }}][menuItemId]"
                         value="{{ $menuItem->menuItemId }}">
                         <input type="hidden"
                         @if($menuItem->privilegeId != null)
-                        name="privileges[{{ $menuItem->privilegeId }}][privilegeId]"
+                        name="privileges[{{ $i }}][privilegeId]"
                         value="{{ $menuItem->privilegeId }}">
                         @endif
-                        <input type="hidden"
-                        name="privileges[{{ $menuItem->roleId }}][roleId]"
-                        value="{{ $menuItem->roleId }}">
+                       
                         <tr>
                             <td>{{ $menuItem->name }}</td>
                             <td>
@@ -53,7 +54,7 @@
                                     <label>
                                         <input type="checkbox"
                                                class=""
-                                               name="privileges[{{ $menuItem->menuItemId }}][view]"
+                                               name="privileges[{{ $i }}][view]"
                                                value="1" @if($menuItem->view) checked @endif>
                                     </label>
                                 </div>
@@ -63,7 +64,7 @@
                                     <label>
                                         <input type="checkbox"
                                                class=""
-                                               name="privileges[{{ $menuItem->menuItemId }}][add]"
+                                               name="privileges[{{ $i }}][add]"
                                                value="1" @if($menuItem->add) checked @endif>
                                     </label>
                                 </div>
@@ -74,7 +75,7 @@
                                     <label>
                                         <input type="checkbox" 
                                                class="" 
-                                               name="privileges[{{ $menuItem->menuItemId }}][edit]" 
+                                               name="privileges[{{ $i }}][edit]" 
                                                value="1" @if($menuItem->edit) checked @endif>
                                     </label>
                                 </div>
@@ -84,7 +85,7 @@
                                     <label>
                                         <input type="checkbox" 
                                                class=""     
-                                               name="privileges[{{ $menuItem->menuItemId }}][delete]" 
+                                               name="privileges[{{ $i }}][delete]" 
                                                value="1" @if($menuItem->delete) checked @endif>
                                     </label>
                                 </div>
@@ -94,7 +95,7 @@
                                     <label>
                                         <input type="checkbox" 
                                                class="" 
-                                               name="privileges[{{ $menuItem->menuItemId }}][other]" 
+                                               name="privileges[{{ $i }}][other]" 
                                                value="1" @if($menuItem->other) checked @endif>
                                     </label>
                                 </div>

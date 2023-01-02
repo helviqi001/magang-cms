@@ -55,4 +55,30 @@ Route::group([
         Route::post('/{id}', 'RoleController@update');
         Route::get('delete/{id}', 'RoleController@delete');
     });
+
+    Route::group([
+        'prefix' => 'kuliner'
+    ], function () {
+        Route::get('/', 'KulinerController@index')->name('index.kuliner');
+        Route::get('/fn_get_data', 'KulinerController@fnGetData');
+        Route::get('/create', 'KulinerController@create');
+        Route::post('/create', 'KulinerController@store');
+        Route::get('/{id}', 'KulinerController@edit');
+        Route::post('/{id}', 'KulinerController@update');
+        Route::get('delete/{id}', 'KulinerController@delete');
+    });
+
+    Route::group([
+        'prefix' => 'wisata'
+    ], function () {
+        Route::get('/', 'WisataController@index')->name('index.wisata');
+        Route::get('/fn_get_data', 'WisataController@fnGetData');
+        Route::get('/create', 'WisataController@create');
+        Route::post('/create', 'WisataController@store');
+        Route::get('/{id}', 'WisataController@edit');
+        Route::post('/{id}', 'WisataController@update');
+        Route::get('delete/{id}', 'WisataController@delete');
+    });
+
+
 });
