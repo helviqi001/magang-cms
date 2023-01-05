@@ -16,35 +16,35 @@
                 @csrf
                 <div class="form-group">
                     <label for="employeeFirstName">Nama Wisata<span class="text-red">*</span></label>
-                    <input type="text" class="form-control" name="name" value="{{ old('nama_wisata') }}" required>
+                    <input type="text" class="form-control" name="name_wisata" value="{{ old('name_wisata') }}" required>
                 </div>
                 <div class="form-group">
                     <label for="employeeFirstName">Deskripsi<span class="text-red">*</label>
-                    <input type="text" class="form-control" name="description" value="{{ old('description') }}" required>
+                    <input type="text" class="form-control" name="deskripsi" value="{{ old('deskripsi') }}" required>
                 </div>
                 <div class="form-group">
                     <label for="employeeFirstName">Harga Dewasa<span class="text-red">*</label>
-                    <input type="text" class="form-control" name="Harga Dewasa" value="{{ old('harga_dewasa') }}" required>
+                    <input type="text" class="form-control" name="harga_dewasa" value="{{ old('harga_dewasa') }}" required>
                 </div>
                 <div class="form-group">
                     <label for="employeeFirstName">Harga Anak<span class="text-red">*</label>
-                    <input type="text" class="form-control" name="Harga Anak" value="{{ old('harga_anak') }}" required>
+                    <input type="text" class="form-control" name="harga_anak" value="{{ old('harga_anak') }}" required>
                 </div>
                 <div class="form-group">
                     <label for="employeeFirstName">Fasilitas<span class="text-red">*</label>
-                    <input type="text" class="form-control" name="Fasilitas" value="{{ old('fasilitas') }}" required>
+                    <input type="text" class="form-control" name="fasilitas" value="{{ old('fasilitas') }}" required>
                 </div>
                 <div class="form-group">
                     <label for="employeeFirstName">Operasional<span class="text-red">*</label>
-                    <input type="text" class="form-control" name="Operasional" value="{{ old('operasional') }}" required>
+                    <input type="text" class="form-control" name="operasional" value="{{ old('operasional') }}" required>
                 </div>
                 <div class="form-group">
                     <label for="employeeFirstName">Lokasi<span class="text-red">*</label>
-                    <input type="text" class="form-control" name="Lokasi" value="{{ old('lokasi') }}" required>
+                    <input type="text" class="form-control" name="lokasi" value="{{ old('lokasi') }}" required>
                 </div>
                 <div class="form-group">
                     <label for="employeeFirstName">Gambar Wisata</label>
-                    <input type="file" class="form-control" name="Gambar Wisata" accept="image/*" value="{{ old('gambar_wisata') }}" required>
+                    <input type="file" class="form-control" name="gambar_wisata" accept="image/*" value="{{ old('gambar_wisata') }}" required>
                 </div>
             </form>
         </div>

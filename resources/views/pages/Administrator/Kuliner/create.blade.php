@@ -16,11 +16,11 @@
                 @csrf
                 <div class="form-group">
                     <label for="employeeFirstName">Nama Kuliner<span class="text-red">*</span></label>
-                    <input type="text" class="form-control" name="name_kuliner" value="{{ old('nama_kuliner') }}" required>
+                    <input type="text" class="form-control" name="name_kuliner" value="{{ old('name_kuliner') }}" required>
                 </div>
                 <div class="form-group">
                     <label for="employeeFirstName">Deskripsi<span class="text-red">*</span></label>
-                    <input type="text" class="form-control" name="description" value="{{ old('description') }}" required>
+                    <input type="text" class="form-control" name="deskripsi" value="{{ old('deskripsi') }}" required>
                 </div>
                 <div class="form-group">
                     <label for="employeeFirstName">Operasional<span class="text-red">*</span></label>
