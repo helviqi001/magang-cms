@@ -20,7 +20,7 @@
                 </div>
                 <div class="form-group">
                     <label for="employeeFirstName">Deskripsi<span class="text-red">*</span></label>
-                    <input type="text" class="form-control" name="description" value="{{ old('description') }}" required>
+                    <input type="text" class="form-control" name="deskripsi" value="{{ old('deskripsi') }}" required>
                 </div>
                 <div class="form-group">
                     <label for="employeeFirstName">Operasional<span class="text-red">*</span></label>
