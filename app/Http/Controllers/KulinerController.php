@@ -120,7 +120,7 @@ class KulinerController extends Controller
         $gateway = new Gateway();
     
         $page = $request->input('start') / $request->input('length') + 1;
-        $data = $gateway->get('/cms/kuliner', [
+        $data = $gateway->get('/api/cms/kuliner', [
             'page' => $page,
             'perPage' => $request->input('length'),
             'limit' => $request->input('length'),
@@ -129,16 +129,16 @@ class KulinerController extends Controller
             'sort' => $request->input('order')[0]['dir']
         ])->getData()->data;
 
-        return DataTables::of($data->items)
+        return DataTables::of($data)
             ->skipPaging()
-            ->setTotalRecords($data->total)
-            ->setFilteredRecords($data->total)
+            ->setTotalRecords(count($data))
+            ->setFilteredRecords(count($data))
             ->addColumn('gambarkuliner', function ($data) {
-                return '<img src="'. $data->gambarkuliner .'" class="img-circle" alt="User Image" style="width:50px">';
+                return '<img src="'. $data->gambar_kuliner .'" class="img-circle" alt="User Image" style="width:50px">';
             })
             ->addColumn('action', function ($data) {
-                $btn = '<a class="btn btn-default" href="kuliner/' . $data->kulinerId . '">Edit</a>';
-                $btn .= ' <button class="btn btn-danger btn-xs btnDelete" style="padding: 5px 6px;" onclick="fnDelete(this,' . $data->kulinerId . ')">Delete</button>';
+                $btn = '<a class="btn btn-default" href="kuliner/' . $data->kuliner_id . '">Edit</a>';
+                $btn .= ' <button class="btn btn-danger btn-xs btnDelete" style="padding: 5px 6px;" onclick="fnDelete(this,' . $data->kuliner_id . ')">Delete</button>';
                 return $btn;
             })
             ->rawColumns(['gambarkuliner', 'action'])

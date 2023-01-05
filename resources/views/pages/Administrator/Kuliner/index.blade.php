@@ -18,7 +18,8 @@
                     <th>Gambar Kuliner</th>
                     <th>Name Kuliner</th>
                     <th>Deskripsi</th>
-                    <th>Harga</th>
+                    <th>Harga Reguler</th>
+                    <th>Harga Jumbo</th>
                     <th>Operasional</th>
                     <th>Lokasi</th>
                     <th>Action</th>
@@ -63,7 +64,7 @@
                 url: window.location.href + "/fn_get_data",
             },
             columns: [
-                {data: 'gambar_kuliner', name: 'gambar_kuliner', width: '10%', searchable: false, orderable: false},
+                {data: 'gambarkuliner', name: 'gambarkuliner', width: '10%', searchable: false, orderable: false},
                 {data: 'name_kuliner', name: 'name_kuliner'},
                 {data: 'deskripsi', name: 'deskripsi'},
                 {data: 'harga_reguler', name: 'harga_reguler'},
