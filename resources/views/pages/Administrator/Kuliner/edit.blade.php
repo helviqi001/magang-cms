@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title','Kuliners')
-@section('content_header_title','Kuliners')
+@section('title','Edit Kuliner')
+@section('content_header_title',' Edit Kuliners')
 
 @section('main-content')
     <div class="box box-primary">
@@ -16,15 +16,15 @@
                 @csrf
                 <div class="form-group">
                     <label for="employeeFirstName">Nama Kuliner<span class="text-red">*</span></label>
-                    <input type="text" class="form-control" name="name_kuliner" value="{{ old('nama_kuliner') }}" required>
+                    <input type="text" class="form-control" name="name_kuliner" value="{{ $kuliner->name_kuliner }}" required>
                 </div>
                 <div class="form-group">
                     <label for="employeeFirstName">Deskripsi<span class="text-red">*</span></label>
-                    <input type="text" class="form-control" name="deskripsi" value="{{ old('deskripsi') }}" required>
+                    <input type="text" class="form-control" name="deskripsi" value="{{ $kuliner->deskripsi }}" required>
                 </div>
                 <div class="form-group">
                     <label for="employeeFirstName">Operasional<span class="text-red">*</span></label>
-                    <select class="form-control" name="operasional" id="cars" value="{{ old('operasional') }}"  required>
+                    <select class="form-control" name="operasional" id="cars" value="{{ $kuliner->operasional }}"  required>
                         <option value="Senin-Jumat">Senin - Jumat</option>
                         <option value="Setiap Hari">Sabtu - Minggu</option> 
                         <option value="Setiap Hari">Setiap Hari</option>  
@@ -32,19 +32,32 @@
                 </div>
                 <div class="form-group">
                     <label for="employeeFirstName">Harga Reguler<span class="text-red">*</span></label>
-                    <input type="text" class="form-control" name="harga_reguler" value="{{ old('harga_reguler') }}" required>
+                    <input type="number" class="form-control" name="harga_reguler" value="{{ $kuliner->harga_reguler }}" required>
                 </div>
                 <div class="form-group">
                     <label for="employeeFirstName">Harga Jumbo<span class="text-red">*</span></label>
-                    <input type="text" class="form-control" name="harga_jumbo" value="{{ old('harga_jumbo') }}" required>
+                    <input type="number" class="form-control" name="harga_jumbo" value="{{ $kuliner->harga_jumbo }}" required>
                 </div>
                 <div class="form-group">
                     <label for="employeeFirstName">Lokasi<span class="text-red">*</span></label>
-                    <input type="text" class="form-control" name="lokasi" value="{{ old('lokasi') }}" required>
+                    <input type="text" class="form-control" name="lokasi" value="{{ $kuliner->lokasi }}" required>
                 </div>
                 <div class="form-group">
-                    <label for="employeeFirstName">Gambar Kuliner<span class="text-red">*</span></label>
-                    <input type="file" class="form-control" name="gambar_kuliner" accept="image/*" value="{{ old('gambar_kuliner') }}" required>
+                    <label for="employeeFirstName">Latitude<span class="text-red">*</span></label>
+                    <input type="text" class="form-control" name="latitude" value="{{ $kuliner->latitude }}" required>
+                    <h5><span class="text-red">*Silahkan diisi sesuai format ini "-6.265834950350268"</h5>
+                </div>
+                <div class="form-group">
+                    <label for="employeeFirstName">Longitude<span class="text-red">*</span></label>
+                    <input type="text" class="form-control" name="longitude" value="{{ $kuliner->longitude }}" required>
+                    <h5><span class="text-red">*Silahkan diisi sesuai format ini "106.73329584425376"</h5>
+                </div>
+                <div class="form-group">
+                    <label for="employeeFirstName">Gambar Kuliner</label>
+                    <br>
+                    <img src="{{ $kuliner->gambar_kuliner }}" alt="" width="150px">
+                    <input type="file" class="form-control" name="gambar_kuliner"  accept="image/*" >
+                <h5><span class="text-red">*Silahkan diisi jika anda ingin mengganti image</h5>
                 </div> 
             </form>
         </div>

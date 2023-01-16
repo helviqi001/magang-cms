@@ -24,28 +24,42 @@
                 </div>
                 <div class="form-group">
                     <label for="employeeFirstName">Harga Dewasa<span class="text-red">*</label>
-                    <input type="text" class="form-control" name="harga_dewasa" value="{{ old('harga_dewasa') }}" required>
+                    <input type="number" class="form-control" name="harga_dewasa" value="{{ old('harga_dewasa') }}" required>
                 </div>
                 <div class="form-group">
                     <label for="employeeFirstName">Harga Anak<span class="text-red">*</label>
-                    <input type="text" class="form-control" name="harga_anak" value="{{ old('harga_anak') }}" required>
+                    <input type="number" class="form-control" name="harga_anak" value="{{ old('harga_anak') }}" required>
                 </div>
                 <div class="form-group">
                     <label for="employeeFirstName">Fasilitas<span class="text-red">*</label>
                     <input type="text" class="form-control" name="fasilitas" value="{{ old('fasilitas') }}" required>
                 </div>
                 <div class="form-group">
-                    <label for="employeeFirstName">Operasional<span class="text-red">*</label>
-                    <input type="text" class="form-control" name="operasional" value="{{ old('operasional') }}" required>
+                    <label for="employeeFirstName">Operasional<span class="text-red">*</span></label>
+                    <select class="form-control" name="operasional" id="cars" value="{{ old('operasional') }}"  required>
+                        <option value="Senin-Jumat">Senin - Jumat</option>
+                        <option value="Setiap Hari">Sabtu - Minggu</option> 
+                        <option value="Setiap Hari">Setiap Hari</option>  
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="employeeFirstName">Lokasi<span class="text-red">*</label>
                     <input type="text" class="form-control" name="lokasi" value="{{ old('lokasi') }}" required>
                 </div>
                 <div class="form-group">
-                    <label for="employeeFirstName">Gambar Wisata</label>
-                    <input type="file" class="form-control" name="gambar_wisata" accept="image/*" value="{{ old('gambar_wisata') }}" required>
+                    <label for="employeeFirstName">Latitude<span class="text-red">*</span></label>
+                    <input type="text" class="form-control" name="latitude" value="{{ old('latitude') }}" required>
+                    <h5><span class="text-red">*Silahkan diisi sesuai format ini "-6.265834950350268"</h5>
                 </div>
+                <div class="form-group">
+                    <label for="employeeFirstName">Longitude<span class="text-red">*</span></label>
+                    <input type="text" class="form-control" name="longitude" value="{{ old('longitude') }}" required>
+                    <h5><span class="text-red">*Silahkan diisi sesuai format ini "106.73329584425376"</h5>
+                </div>
+                <div class="form-group">
+                    <label for="employeeFirstName">Gambar Wisata<span class="text-red">*</span></label>
+                    <input type="file" class="form-control" name="gambar_wisata" accept="image/*" value="{{ old('gambar_wisata') }}" required>
+                </div>  
             </form>
         </div>
         <div class="box-footer">

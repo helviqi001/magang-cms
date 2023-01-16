@@ -6,7 +6,7 @@ use Illuminate\Http\JsonResponse;
 
 trait HttpClientRequest {
     private $headers = [
-        'Accept-Encoding' => 'gzip, deflate, br'
+        'Accept-Encoding' => 'gzip, deflate, br',
     ];
 
     public function setHeaders($value)
@@ -106,7 +106,6 @@ trait HttpClientRequest {
         if (!empty($multipartParam)) {
             $options['multipart'] = $multipartParam;
         }
-
         $res = $client->request($method, $url, $options);
         $response = json_decode($res->getBody()->getContents(), $isArray);
         return response()->json($response, $res->getStatusCode());

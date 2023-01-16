@@ -32,15 +32,25 @@
                 </div>
                 <div class="form-group">
                     <label for="employeeFirstName">Harga Reguler<span class="text-red">*</span></label>
-                    <input type="text" class="form-control" name="harga_reguler" value="{{ old('harga_reguler') }}" required>
+                    <input type="number" class="form-control" name="harga_reguler" value="{{ old('harga_reguler') }}" required>
                 </div>
                 <div class="form-group">
                     <label for="employeeFirstName">Harga Jumbo<span class="text-red">*</span></label>
-                    <input type="text" class="form-control" name="harga_jumbo" value="{{ old('harga_jumbo') }}" required>
+                    <input type="number" class="form-control" name="harga_jumbo" value="{{ old('harga_jumbo') }}" required>
                 </div>
                 <div class="form-group">
-                    <label for="employeeFirstName">Lokasi<span class="text-red">*</span></label>
+                    <label for="employeeFirstName">Lokasi<span class="text-red">*</label>
                     <input type="text" class="form-control" name="lokasi" value="{{ old('lokasi') }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="employeeFirstName">Latitude<span class="text-red">*</span></label>
+                    <input type="text" class="form-control" name="latitude" value="{{ old('latitude') }}" required>
+                    <h5><span class="text-red">*Silahkan diisi sesuai format ini "-6.265834950350268"</h5>
+                </div>
+                <div class="form-group">
+                    <label for="employeeFirstName">Longitude<span class="text-red">*</span></label>
+                    <input type="text" class="form-control" name="longitude" value="{{ old('longitude') }}" required>
+                    <h5><span class="text-red">*Silahkan diisi sesuai format ini "106.73329584425376"</h5>
                 </div>
                 <div class="form-group">
                     <label for="employeeFirstName">Gambar Kuliner<span class="text-red">*</span></label>

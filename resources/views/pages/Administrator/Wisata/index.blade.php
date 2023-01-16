@@ -18,10 +18,13 @@
                     <th>Gambar Wisata</th>
                     <th>Name Wisata</th>
                     <th>Deskripsi</th>
-                    <th>Harga</th>
+                    <th>Harga Dewasa</th>
+                    <th>Harga Anak</th>
                     <th>Fasilitas</th>
                     <th>Operasional</th>
                     <th>Lokasi</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -64,7 +67,7 @@
                 url: window.location.href + "/fn_get_data",
             },
             columns: [
-                {data: 'gambar_wisata', name: 'gambar_wisata', width: '10%', searchable: false, orderable: false},
+                {data: 'gambarwisata', name: 'gambarwisata', width: '10%', searchable: false, orderable: false},
                 {data: 'name_wisata', name: 'name_wisata'},
                 {data: 'deskripsi', name: 'deskripsi'},
                 {data: 'harga_dewasa', name: 'harga_dewasa'},
@@ -72,6 +75,8 @@
                 {data: 'fasilitas', name: 'fasilitas'},
                 {data: 'operasional', name: 'operasional'},
                 {data: 'lokasi', name: 'lokasi'},
+                {data: 'latitude', name: 'latitude'},
+                {data: 'longitude', name: 'longitude'},
                 {data: 'action', searchable: false, orderable: false, width: '25%'},
             ],
         })
@@ -80,7 +85,7 @@
             let modalDelete = $('#modal-delete')
             let name = component.parentElement.parentElement.childNodes[1].textContent
             modalDelete.find('div.modal-body>p')[0].textContent = "Are you sure want to delete " + name + "?"
-            modalDelete.find('div.modal-footer>a')[0].href = 'admin/delete/' + id
+            modalDelete.find('div.modal-footer>a')[0].href = 'wisata/delete/' + id
             modalDelete.modal()
         }
     </script>
