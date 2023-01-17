@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\Gateway;
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 use \Yajra\DataTables\DataTables;
 
 class UserController extends Controller
@@ -36,7 +34,7 @@ class UserController extends Controller
         //     $data->foto = $request->file('avatar')->getClientOriginalName();
         //     $data->save();
         // }
-        $this->validate($request,[
+        $this->validate($request, [
             'name' => 'required|min:5|max:20',
             'username' => 'required|min:6|max:30',
             'email' => 'required',
@@ -48,34 +46,34 @@ class UserController extends Controller
         ]);
 
         // $path =$request->file('avatar')->store('public/images');
-        $file           = $request->file('avatar');
+        $file = $request->file('avatar');
         //mengambil nama file
-        $nama_file      = asset('img/avatars').'/'.$file->getClientOriginalName();
-        
+        $nama_file = asset('img/avatars') . '/' . $file->getClientOriginalName();
+
         //memindahkan file ke folder tujuan
-        $file->move('img/avatars',$file->getClientOriginalName());
+        $file->move('img/avatars', $file->getClientOriginalName());
         // $user = new User;
         // $user->save();
-        
 
         $gateway = new Gateway();
-        $storeRole = $gateway->post('/api/cms/manage/user' ,[
-            "name"=> $request->get('name'),
-            "username"=>$request->get('username'),
-            "email"=>$request->get('email'),
-            "avatar"=>$nama_file,
-            "birthDate"=> $request->get('birthdate'),
-            "password"=> $request->get('password'),
-            "roleId"=> $request->get('roleId')
+        $storeRole = $gateway->post('/api/cms/manage/user', [
+            "name" => $request->get('name'),
+            "username" => $request->get('username'),
+            "email" => $request->get('email'),
+            "avatar" => $nama_file,
+            "birthDate" => $request->get('birthdate'),
+            "password" => $request->get('password'),
+            "roleId" => $request->get('roleId'),
         ])->getData();
-        return redirect('/admin')->with('success','Data Berhasil Di Tambahkan');
+        dd($storeRole);
+        return redirect('/admin')->with('success', 'Data Berhasil Di Tambahkan');
     }
 
     public function edit($id)
     {
-        
+
         $gateway = new Gateway();
-        $user = $gateway->get('/api/cms/manage/user/'. $id)->getData()->data;
+        $user = $gateway->get('/api/cms/manage/user/' . $id)->getData()->data;
         $roles = $gateway->get('/api/cms/manage/role', [
             'page' => 1,
             'perPage' => 999,
@@ -90,34 +88,34 @@ class UserController extends Controller
         // dd($request->all());
         $nama_file = '';
         if ($request->file('avatar')) {
-            $file           = $request->file('avatar');
+            $file = $request->file('avatar');
             //mengambil nama file
-            $nama_file      = asset('img/avatars').'/'.$file->getClientOriginalName();
-            
+            $nama_file = asset('img/avatars') . '/' . $file->getClientOriginalName();
+
             //memindahkan file ke folder tujuan
-            $file->move('img/avatars',$file->getClientOriginalName());
+            $file->move('img/avatars', $file->getClientOriginalName());
         }
-        
+
         $password = '';
         if ($request->password != null) {
             $password = $request->password;
         }
 
         $gateway = new Gateway();
-        $storeRole = $gateway->put('/api/cms/manage/user/'.$id ,[
-            "name"=> $request->get('name'),
-            "username"=>$request->get('username'),
-            "email"=>$request->get('email'),
-            "avatar"=>$nama_file,
-            "birthDate"=> $request->get('birthdate'),
-            "password"=> $password,
-            "roleId"=> $request->get('roleId')
+        $storeRole = $gateway->put('/api/cms/manage/user/' . $id, [
+            "name" => $request->get('name'),
+            "username" => $request->get('username'),
+            "email" => $request->get('email'),
+            "avatar" => $nama_file,
+            "birthDate" => $request->get('birthdate'),
+            "password" => $password,
+            "roleId" => $request->get('roleId'),
         ])->getData();
-
+            dd($storeRole);
         if ($storeRole->success) {
-            return redirect('/admin')->with('success','Data Berhasil Di Tambahkan');
+            return redirect('/admin')->with('success', 'Data Berhasil Di Tambahkan');
         } else {
-            return redirect('/admin')->with('error','Rusak');
+            return redirect('/admin')->with('error', 'Data Gagal Di Tambahkan');
         }
 
     }
@@ -144,7 +142,7 @@ class UserController extends Controller
             'limit' => $request->input('length'),
             'keyword' => $request->input('search')['value'],
             'sortBy' => $request->input('columns')[$request->input('order')[0]['column']]['name'],
-            'sort' => $request->input('order')[0]['dir']
+            'sort' => $request->input('order')[0]['dir'],
         ])->getData()->data;
 
         return DataTables::of($data->items)
@@ -152,7 +150,7 @@ class UserController extends Controller
             ->setTotalRecords($data->total)
             ->setFilteredRecords($data->total)
             ->addColumn('avatar', function ($data) {
-                return '<img src="'. $data->avatar .'" class="img-circle" alt="User Image" style="width:50px">';
+                return '<img src="' . $data->avatar . '" class="img-circle" alt="User Image" style="width:50px">';
             })
             ->addColumn('action', function ($data) {
                 $btn = '<a class="btn btn-default" href="admin/' . $data->userId . '">Edit</a>';
@@ -163,5 +161,3 @@ class UserController extends Controller
             ->make(true);
     }
 }
-
-

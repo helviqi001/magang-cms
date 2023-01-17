@@ -8,6 +8,11 @@ use \Yajra\DataTables\DataTables;
 
 class KulinerController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         return view('pages.Administrator.Kuliner.index');
@@ -17,11 +22,11 @@ class KulinerController extends Controller
     {
         // dd($request);
         $gateway = new Gateway();
-        $data = $gateway->get('/cms/kuliner', [
+        $data = $gateway->get('/api/cms/kuliner', [
             'page' => 1,
             'perPage' => 999,
             'limit' => 999,
-        ])->getData();
+        ])->getData()->data;
         return view('pages.Administrator.Kuliner.create')->with('kuliner', $data);
     }
 
@@ -35,40 +40,47 @@ class KulinerController extends Controller
             'harga_jumbo' => 'required',
             'operasional' => 'required',
             'lokasi' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
             'gambar_kuliner' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
         ]);
 
-        // $path =$request->file('avatar')->store('public/images');
+        // $path = $request->file('gambar_kuliner')->store('public/images');
         $file = $request->file('gambar_kuliner');
         //mengambil nama file
         $nama_file = asset('img/kuliner') . '/' . $file->getClientOriginalName();
 
         //memindahkan file ke folder tujuan
         $file->move('img/kuliner', $file->getClientOriginalName());
-
+        // dd($request);
         $gateway = new Gateway();
-        $storeKuliner = $gateway->post('/cms/kuliner', [
-            "name_kuliner" => $request->get('name'),
+        // dd($gateway);
+        $storekuliner = $gateway->post('api/cms/kuliner', [
+            "name_kuliner" => $request->get('name_kuliner'),
             "deskripsi" => $request->get('deskripsi'),
             "harga_reguler" => $request->get('harga_reguler'),
             "harga_jumbo" => $request->get('harga_jumbo'),
             "operasional" => $request->get('operasional'),
             "lokasi" => $request->get('lokasi'),
+            "latitude" => $request->get('latitude'),
+            "longitude" => $request->get('longitude'),
             "gambar_kuliner" => $nama_file,
         ])->getData();
+
         return redirect('/kuliner')->with('success', 'Data Berhasil Di Tambahkan');
     }
 
     public function edit($id)
     {
         $gateway = new Gateway();
-        $kuliner = $gateway->get('/cms/kuliner/' . $id)->getData()->data;
+        $kuliner = $gateway->get('api/cms/kuliner/' . $id)->getData()->data;
         return view('pages.Administrator.Kuliner.edit', compact('kuliner'));
 
     }
 
     public function update(Request $request, $id)
     {
+        // dd($request->all());
         $nama_file = '';
         if ($request->file('gambar_kuliner')) {
             $file = $request->file('gambar_kuliner');
@@ -79,28 +91,31 @@ class KulinerController extends Controller
             $file->move('img/kuliner', $file->getClientOriginalName());
         }
         $gateway = new Gateway();
-        $storeKuliner = $gateway->put('/cms/kuliner' . $id, [
-            "name_kuliner" => $request->get('name'),
+        $storeKuliner = $gateway->put('api/cms/kuliner/' . $id, [
+            "name_kuliner" => $request->get('name_kuliner'),
             "deskripsi" => $request->get('deskripsi'),
             "harga_reguler" => $request->get('harga_reguler'),
             "harga_jumbo" => $request->get('harga_jumbo'),
             "operasional" => $request->get('operasional'),
             "lokasi" => $request->get('lokasi'),
+            "latitude" => $request->get('latitude'),
+            "longitude" => $request->get('longitude'),
             "gambar_kuliner" => $nama_file,
         ])->getData();
-
-        if ($storeKuliner->success) {
-            return redirect('/kuliner')->with('success', 'Data Berhasil Di Tambahkan');
-        } else {
-            return redirect('/kuliner')->with('error', 'Data gagal di tambahkan');
-        }
+        dd($storeKuliner);
+        return redirect('/kuliner')->with('success', 'Data Berhasil Di Tambahkan');
+        // if ($storeKuliner->success) {
+        //     return redirect('/kuliner')->with('success', 'Data Berhasil Di Tambahkan');
+        // } else {
+        //     return redirect('/kuliner')->with('error', 'Data gagal di tambahkan');
+        // }
     }
 
     public function delete($id)
     {
         $gateway = new Gateway();
 
-        $deleteKuliner = $gateway->delete('/cms/kuliner/' . $id);
+        $deleteKuliner = $gateway->delete('api/cms/kuliner/' . $id);
         return redirect('/kuliner')->with('success', 'Kuliner Deleted');
     }
 
@@ -123,14 +138,14 @@ class KulinerController extends Controller
             ->setTotalRecords(count($data))
             ->setFilteredRecords(count($data))
             ->addColumn('gambarkuliner', function ($data) {
-                return '<img src="'. $data->gambar_kuliner .'" class="img-circle" alt="User Image" style="width:50px">';
+                return '<img src="' . $data->gambar_kuliner . '" class="img-circle" alt="User Image" style="width:50px">';
             })
             ->addColumn('action', function ($data) {
                 $btn = '<a class="btn btn-default" href="kuliner/' . $data->kuliner_id . '">Edit</a>';
                 $btn .= ' <button class="btn btn-danger btn-xs btnDelete" style="padding: 5px 6px;" onclick="fnDelete(this,' . $data->kuliner_id . ')">Delete</button>';
                 return $btn;
             })
-            ->rawColumns(['gambar_kuliner', 'action'])
+            ->rawColumns(['gambarkuliner', 'action'])
             ->make(true);
     }
 

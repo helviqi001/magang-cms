@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -19,21 +19,23 @@ Route::get('/', function () {
 
 Route::group([
     'middleware' => 'guest',
-    'namespace' => 'App\Http\Controllers\Auth'
+    'namespace' => 'App\Http\Controllers\Auth',
 ], function () {
     Route::get('/login', 'LoginController@showLoginForm')->name('login');
     Route::post('/login', 'LoginController@authenticate')->name('authenticate');
+    // Route::get('/register', 'RegisterController@showRegistrationForm')->name('register');
+    // Route::post('/register', 'RegisterController@register')->name('register');
 });
 
 Route::group([
     'middleware' => 'auth',
-    'namespace' => 'App\Http\Controllers'
+    'namespace' => 'App\Http\Controllers',
 ], function () {
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
     Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
     Route::group([
-        'prefix' => 'admin'
+        'prefix' => 'admin',
     ], function () {
         Route::get('/', 'UserController@index');
         Route::get('/fn_get_data', 'UserController@fnGetData');
@@ -45,7 +47,7 @@ Route::group([
     });
 
     Route::group([
-        'prefix' => 'role'
+        'prefix' => 'role',
     ], function () {
         Route::get('/', 'RoleController@index')->name('index.role');
         Route::get('/fn_get_data', 'RoleController@fnGetData');
@@ -57,7 +59,7 @@ Route::group([
     });
 
     Route::group([
-        'prefix' => 'kuliner'
+        'prefix' => 'kuliner',
     ], function () {
         Route::get('/', 'KulinerController@index')->name('index.kuliner');
         Route::get('/fn_get_data', 'KulinerController@fnGetData');
@@ -69,7 +71,7 @@ Route::group([
     });
 
     Route::group([
-        'prefix' => 'wisata'
+        'prefix' => 'wisata',
     ], function () {
         Route::get('/', 'WisataController@index')->name('index.wisata');
         Route::get('/fn_get_data', 'WisataController@fnGetData');
@@ -79,6 +81,5 @@ Route::group([
         Route::post('/{id}', 'WisataController@update');
         Route::get('delete/{id}', 'WisataController@delete');
     });
-
 
 });

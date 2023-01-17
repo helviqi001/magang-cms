@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Services\Gateway;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 use \Yajra\DataTables\DataTables;
 
 class RoleController extends Controller
@@ -19,7 +18,7 @@ class RoleController extends Controller
         $gateway = new Gateway();
 
         $menuItems = $gateway->get('/api/cms/manage/menu-item', [
-            'limit' => 999
+            'limit' => 999,
         ])->getData()->data->items;
 
         return view('pages.Administrator.Role.create', compact('menuItems'));
@@ -29,7 +28,7 @@ class RoleController extends Controller
     {
         // dd($request->all());
         $privileges = $request->get('menu');
-        foreach($privileges as $i => $privilege) {
+        foreach ($privileges as $i => $privilege) {
             // cek data
             $privileges[$i]['view'] = array_key_exists('view', $privilege);
             $privileges[$i]['add'] = array_key_exists('add', $privilege);
@@ -41,21 +40,21 @@ class RoleController extends Controller
         // $testRequestToApi = [
         //     "name"=> $request->get('name'),
         //     "description" => $request->get('description'),
-        //     "privileges" => $privileges 
+        //     "privileges" => $privileges
         // ];
         // dd($testRequestToApi)
-        
+
         $gateway = new Gateway();
         // Hit ke API untuk menambah data
-        $storeRole = $gateway->post('/api/cms/manage/role' ,[
-            "name"=> $request->get('name'),
+        $storeRole = $gateway->post('/api/cms/manage/role', [
+            "name" => $request->get('name'),
             "description" => $request->get('description'),
-            "privileges" => $privileges 
+            "privileges" => $privileges,
         ])->getData();
-            // dd($storeRole);
-        // cek balikan api 
-        if(!$storeRole->success) {
-            // // kalo gagal 
+        // dd($storeRole);
+        // cek balikan api
+        if (!$storeRole->success) {
+            // // kalo gagal
             // dd($storeRole);
 
             return redirect()->route('index.role')->with(['error', $storeRole->message]);
@@ -67,22 +66,22 @@ class RoleController extends Controller
     public function edit($id)
     {
         $gateway = new Gateway();
-        $role = $gateway->get('/api/cms/manage/role/'. $id)->getData();
-        if (!$role->success){
+        $role = $gateway->get('/api/cms/manage/role/' . $id)->getData();
+        if (!$role->success) {
             return redirect()->route('index.role');
         }
 
         $menuItems = $gateway->get('/api/cms/manage/menu-item', [
-            'limit' => 999
+            'limit' => 999,
         ])->getData()->data->items;
-            // dd($role);
+        // dd($role);
         $role = $role->data;
         $rolePrivilege = collect($role->privileges);
 
         foreach ($menuItems as $i => $menuItem) {
             $privilege = $rolePrivilege->where('menuItemId', $menuItem->menuItemId)->first();
 
-            if(!$privilege) {
+            if (!$privilege) {
                 $menuItems[$i]->roleId = $id;
                 $menuItems[$i]->privilegeId = "";
                 $menuItems[$i]->view = false;
@@ -93,45 +92,44 @@ class RoleController extends Controller
             } else {
                 $menuItems[$i]->roleId = $id;
                 $menuItems[$i]->privilegeId = $privilege->privilegeId;
-                $menuItems[$i]->view = (bool)$privilege->view;
-                $menuItems[$i]->add = (bool)$privilege->add;
-                $menuItems[$i]->edit = (bool)$privilege->edit;
-                $menuItems[$i]->delete = (bool)$privilege->delete;
-                $menuItems[$i]->other = (bool)$privilege->other;
+                $menuItems[$i]->view = (bool) $privilege->view;
+                $menuItems[$i]->add = (bool) $privilege->add;
+                $menuItems[$i]->edit = (bool) $privilege->edit;
+                $menuItems[$i]->delete = (bool) $privilege->delete;
+                $menuItems[$i]->other = (bool) $privilege->other;
             }
-            
 
         }
         return view('pages.Administrator.Role.edit', compact('menuItems', 'role'));
     }
- 
+
     public function update(Request $request, $id)
     {
         // dd($request->all());
         // dd($id);
         $privileges = $request->get('privileges');
-        foreach($privileges as $i => $privilege) {
+        foreach ($privileges as $i => $privilege) {
             // cek data
-            $privileges[$i]['view'] = array_key_exists('view', $privilege)?$privilege['view']:'0';
-            $privileges[$i]['add'] = array_key_exists('add', $privilege)?$privilege['add']:'0';
-            $privileges[$i]['edit'] = array_key_exists('edit', $privilege)?$privilege['edit']:'0';
-            $privileges[$i]['delete'] = array_key_exists('delete', $privilege)?$privilege['delete']:'0';
-            $privileges[$i]['other'] = array_key_exists('other', $privilege)?$privilege['other']:'0';
-        }  
+            $privileges[$i]['view'] = array_key_exists('view', $privilege) ? $privilege['view'] : '0';
+            $privileges[$i]['add'] = array_key_exists('add', $privilege) ? $privilege['add'] : '0';
+            $privileges[$i]['edit'] = array_key_exists('edit', $privilege) ? $privilege['edit'] : '0';
+            $privileges[$i]['delete'] = array_key_exists('delete', $privilege) ? $privilege['delete'] : '0';
+            $privileges[$i]['other'] = array_key_exists('other', $privilege) ? $privilege['other'] : '0';
+        }
         $testRequestToApi = [
-            "name"=> $request->get('name'),
+            "name" => $request->get('name'),
             "description" => $request->get('description'),
-            "privileges" => $privileges 
+            "privileges" => $privileges,
         ];
         // dd($testRequestToApi);
         $gateway = new Gateway();
         // Hit ke API untuk update data
         // dd($testRequestToApi);
-        $updateRole = $gateway->put('/api/cms/manage/role/'. $id, $testRequestToApi)->getData();
-        
-        // cek balikan api 
-        if(!$updateRole->success) {
-            // kalo gagal 
+        $updateRole = $gateway->put('/api/cms/manage/role/' . $id, $testRequestToApi)->getData();
+        dd($updateRole);
+        // cek balikan api
+        if (!$updateRole->success) {
+            // kalo gagal
             // dd($updateRole);
 
             return redirect()->route('index.role')->with(['error', $updateRole->message]);
@@ -144,11 +142,11 @@ class RoleController extends Controller
     {
         $gateway = new Gateway();
 
-        $deleteRole = $gateway->delete('/api/cms/manage/role/' . $id);                                                      
+        $deleteRole = $gateway->delete('/api/cms/manage/role/' . $id);
         if (!$deleteRole->getData()->success) {
             return redirect('/role')->with('error', $deleteRole->getData()->message);
         }
-        return redirect('/role')->with('success','Role Berhasil Di Delete');
+        return redirect('/role')->with('success', 'Role Berhasil Di Delete');
     }
 
     public function fnGetData(Request $request)
@@ -162,7 +160,7 @@ class RoleController extends Controller
             'limit' => $request->input('length'),
             'keyword' => $request->input('search')['value'],
             'sortBy' => $request->input('columns')[$request->input('order')[0]['column']]['name'],
-            'sort' => $request->input('order')[0]['dir']
+            'sort' => $request->input('order')[0]['dir'],
         ])->getData()->data;
 
         return DataTables::of($data->items)
@@ -178,5 +176,3 @@ class RoleController extends Controller
             ->make(true);
     }
 }
-
-
