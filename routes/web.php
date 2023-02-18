@@ -37,7 +37,7 @@ Route::group([
     Route::group([
         'prefix' => 'admin',
     ], function () {
-        Route::get('/', 'UserController@index');
+        Route::get('/', 'UserController@index')->name('index.admin');
         Route::get('/fn_get_data', 'UserController@fnGetData');
         Route::get('/create', 'UserController@create');
         Route::post('/create', 'UserController@store');
@@ -69,17 +69,4 @@ Route::group([
         Route::post('/{id}', 'KulinerController@update');
         Route::get('delete/{id}', 'KulinerController@delete');
     });
-
-    Route::group([
-        'prefix' => 'wisata',
-    ], function () {
-        Route::get('/', 'WisataController@index')->name('index.wisata');
-        Route::get('/fn_get_data', 'WisataController@fnGetData');
-        Route::get('/create', 'WisataController@create');
-        Route::post('/create', 'WisataController@store');
-        Route::get('/{id}', 'WisataController@edit');
-        Route::post('/{id}', 'WisataController@update');
-        Route::get('delete/{id}', 'WisataController@delete');
-    });
-
 });

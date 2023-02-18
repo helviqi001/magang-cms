@@ -32,9 +32,9 @@ class LoginController extends Controller
         $gateway = new Gateway();
 
         if (!\Cache::has('token-app')) {
-            $token = $gateway->post('/api/token', [
-                'clientKey' => 'clientKeyBackOffice',
-                'secretKey' => 'secret'
+            $token = $gateway->post('/api/cms/token', [
+                'client_key' => 'clientKeyBackOffice',
+                'secret_key' => 'secret'
             ]);
             \Cache::add('token-app', $token->getData()->data->token, 2592000);;
         }
@@ -49,9 +49,9 @@ class LoginController extends Controller
         }
         Session::put('auth', $response->data);
 
-        $gateway = new Gateway();
-        $responsePrivileges = $gateway->get('/api/cms/auth/my-privileges')->getData();
-        Session::put('privileges', $responsePrivileges->data);
+        // $gateway = new Gateway();
+        // $responsePrivileges = $gateway->get('/api/cms/auth/my-privileges')->getData();
+        // Session::put('privileges', $responsePrivileges->data);
 
         return redirect('dashboard');
     }

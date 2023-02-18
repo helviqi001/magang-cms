@@ -22,8 +22,6 @@
                     <th>Harga Jumbo</th>
                     <th>Operasional</th>
                     <th>Lokasi</th>
-                    <th>Latitude</th>
-                    <th>Longitude</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -73,8 +71,6 @@
                 {data: 'harga_jumbo', name: 'harga_jumbo'},
                 {data: 'operasional', name: 'operasional'},
                 {data: 'lokasi', name: 'lokasi'},
-                {data: 'latitude', name: 'latitude'},
-                {data: 'longitude', name: 'longitude'},
                 {data: 'action', searchable: false, orderable: false, width: '25%'},
             ],
         })

@@ -24,7 +24,7 @@ class KulinerController extends Controller
         $gateway = new Gateway();
         $data = $gateway->get('/api/cms/kuliner', [
             'page' => 1,
-            'perPage' => 999,
+            'per_page' => 999,
             'limit' => 999,
         ])->getData()->data;
         return view('pages.Administrator.Kuliner.create')->with('kuliner', $data);
@@ -126,17 +126,17 @@ class KulinerController extends Controller
         $page = $request->input('start') / $request->input('length') + 1;
         $data = $gateway->get('/api/cms/kuliner', [
             'page' => $page,
-            'perPage' => $request->input('length'),
+            'per_page' => $request->input('length'),
             'limit' => $request->input('length'),
             'keyword' => $request->input('search')['value'],
-            'sortBy' => $request->input('columns')[$request->input('order')[0]['column']]['name'],
+            'sort_by' => $request->input('columns')[$request->input('order')[0]['column']]['name'],
             'sort' => $request->input('order')[0]['dir'],
         ])->getData()->data;
 
-        return DataTables::of($data)
+        return DataTables::of($data->items)
             ->skipPaging()
-            ->setTotalRecords(count($data))
-            ->setFilteredRecords(count($data))
+            ->setTotalRecords($data->total)
+            ->setFilteredRecords($data->total)
             ->addColumn('gambarkuliner', function ($data) {
                 return '<img src="' . $data->gambar_kuliner . '" class="img-circle" alt="User Image" style="width:50px">';
             })

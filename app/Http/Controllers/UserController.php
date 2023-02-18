@@ -19,7 +19,7 @@ class UserController extends Controller
         $gateway = new Gateway();
         $data = $gateway->get('/api/cms/manage/role', [
             'page' => 1,
-            'perPage' => 999,
+            'per_page' => 999,
             'limit' => 999,
         ])->getData()->data;
         return view('pages.Administrator.User.create')->with('roles', $data);
@@ -42,7 +42,7 @@ class UserController extends Controller
             'birthdate' => 'required',
             'password' => 'required|alphaNum|min:5',
             'confirmpassword' => 'required|alphaNum|min:5',
-            'roleId' => 'required',
+            'role_id' => 'required',
         ]);
 
         // $path =$request->file('avatar')->store('public/images');
@@ -61,9 +61,9 @@ class UserController extends Controller
             "username" => $request->get('username'),
             "email" => $request->get('email'),
             "avatar" => $nama_file,
-            "birthDate" => $request->get('birthdate'),
+            "birth_date" => $request->get('birthdate'),
             "password" => $request->get('password'),
-            "roleId" => $request->get('roleId'),
+            "role_id" => $request->get('roleId'),
         ])->getData();
         dd($storeRole);
         return redirect('/admin')->with('success', 'Data Berhasil Di Tambahkan');
@@ -76,7 +76,7 @@ class UserController extends Controller
         $user = $gateway->get('/api/cms/manage/user/' . $id)->getData()->data;
         $roles = $gateway->get('/api/cms/manage/role', [
             'page' => 1,
-            'perPage' => 999,
+            'per_page' => 999,
             'limit' => 999,
         ])->getData()->data;
         return view('pages.Administrator.User.edit', compact('roles', 'user'));
@@ -138,12 +138,12 @@ class UserController extends Controller
         $page = $request->input('start') / $request->input('length') + 1;
         $data = $gateway->get('/api/cms/manage/user', [
             'page' => $page,
-            'perPage' => $request->input('length'),
+            'per_page' => $request->input('length'),
             'limit' => $request->input('length'),
             'keyword' => $request->input('search')['value'],
-            'sortBy' => $request->input('columns')[$request->input('order')[0]['column']]['name'],
+            'sort_by' => $request->input('columns')[$request->input('order')[0]['column']]['name'],
             'sort' => $request->input('order')[0]['dir'],
-        ])->getData()->data;
+        ])->getData()->data;;
 
         return DataTables::of($data->items)
             ->skipPaging()

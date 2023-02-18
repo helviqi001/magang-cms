@@ -156,10 +156,10 @@ class RoleController extends Controller
         $page = $request->input('start') / $request->input('length') + 1;
         $data = $gateway->get('/api/cms/manage/role', [
             'page' => $page,
-            'perPage' => $request->input('length'),
+            'per_page' => $request->input('length'),
             'limit' => $request->input('length'),
             'keyword' => $request->input('search')['value'],
-            'sortBy' => $request->input('columns')[$request->input('order')[0]['column']]['name'],
+            'sort_by' => $request->input('columns')[$request->input('order')[0]['column']]['name'],
             'sort' => $request->input('order')[0]['dir'],
         ])->getData()->data;
 

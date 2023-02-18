@@ -30,25 +30,18 @@
             <li class="{{ isActiveUrl('/dashboard') }}">
                 <a href="{{route('dashboard')}}"><i class="fa fa-tachometer-alt"></i><span>Dashboard</span></a>
             </li>
-            @foreach(Session::get('privileges') as $privilege)
-                <li class="treeview {{ areActiveUrl(collect($privilege->menus)->map(function ($data) {return $data->url;})) }}">
-                    <a href="#">
-                        <i class="{{ $privilege->icon }}"></i>
-                        <span>{{ $privilege->name }}</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
-                    </a>
-                    <ul class="treeview-menu">
-                        @foreach($privilege->menus as $menu)
-                            <li class="{{ isActiveUrl($menu->url) }}"><a href="{{ $menu->url }}"><i class="fa fa-circle-o"></i> {{ $menu->name }}</a></li>
-                        @endforeach
-                    </ul>
-                </li>
-            @endforeach
+            <li class="treeview {{ areActiveUrl(['/admin', '/role']) }}">
+                <a href="#">
+                    <i class="fa fa-users"></i>
+                    <span>User</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="{{ isActiveUrl('/admin') }}"><a href="{{route('index.admin')}}"><i class="fa fa-circle-o"></i> Manage Users</a></li>
+                    <li class="{{ isActiveUrl('/role') }}"><a href="{{route('index.role')}}"><i class="fa fa-circle-o"></i> Manage Roles</a></li>
+                </ul>
+            </li>
             <li  class="{{ isActiveUrl('/kuliner') }}">
                 <a href="{{route('index.kuliner')}}"><span>Kuliner</span></a>
-
-            </li>
-            <li class="{{ isActiveUrl('/wisata') }}">
-                <a href="{{route('index.wisata')}}"><span>Wisata</span></a>
             </li>
         </ul>
     </section>
